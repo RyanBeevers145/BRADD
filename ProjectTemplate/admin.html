@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>BRADD Admin</title>
+    <!--DO NOT FORGET THIS SCRIPT TAG SO YOU CAN USE JQUERY!!!!!-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!--YOUR OWN JAVASCRIPT CAN GO RIGHT HERE-->
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+        function GetInputValue() {
+            return document.getElementById("email_input").value || null;
+        }
+        function GetPostsByIDHandler(email) {
+            var webMethod = "ProjectServices.asmx/GetPostsByUser";
+            var parameters = "{\"userEmail\":\"" + email + "\"}"; 
+
+            $.ajax({
+                type: "POST",
+                url: webMethod,
+                data: parameters,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (msg) {
+                    var responseFromServer = msg.d;
+                    document.getElementById("output").innerHTML = responseFromServer;
+                },
+                error: function (err) {
+                    console.log("There was an error:\n\t" + err.responseText + "\n\t" + parameters);
+                }
+            });
+        }
+
+    </script>
+</head>
+<body>
+    <input id="email_input" type="text" placeholder="Email" />
+    <button type="button" class="btn btn-info" onclick="GetPostsByIDHandler(GetInputValue());">Test connection</button>
+    <p id="output"></p>
+</body>
+</html>
+
